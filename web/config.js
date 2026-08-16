@@ -1,8 +1,8 @@
 // ==================== CONNECTION SETTINGS ====================
 // Fill these in after you deploy the Apps Script (see README.md steps 4-6).
 const CONFIG = {
-  webAppUrl: 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',
-  token: 'PASTE_YOUR_APP_TOKEN_HERE', // must match Script Properties > APP_TOKEN
+  webAppUrl: 'https://script.google.com/macros/s/AKfycbwlAllAG0MYsB8oxMGyRiItkyXfmqQuGA8jMZSQ3FyHBfyE6ZXVjeYdb6qVa8BtFNFxxA/exec',
+  token: 'DrawoH1985()', // must match Script Properties > APP_TOKEN
 
   // ==================== BUSINESS LIST ====================
   // id must exactly match a key in SHEET_MAP inside Code.gs

@@ -1,68 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Ledger</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Get Your Free Quote</title>
+<style>
+  :root {
+    --navy: #0b0b0c;
+    --navy-light: #1e1c17;
+    --gold-bright: #d4af37;
+    --accent: #a9821f;
+    --accent-hover: #8f6c19;
+    --success: #d4af37;
+    --error: #d64545;
+    --gray-50: #faf8f3;
+    --gray-100: #e8e3d3;
+    --gray-300: #d9d3bd;
+    --gray-500: #6b6558;
+    --gray-700: #201f1c;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 50%, #2a2418 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 32px 32px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .card-header .badge {
+    display: inline-block;
+    background: var(--navy);
+    color: var(--gold-bright);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .card-header h1 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: var(--navy);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .card-header p {
+    margin: 0;
+    color: var(--gray-500);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+
+  form { padding: 28px 32px 32px; }
+
+  .field { margin-bottom: 18px; }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 6px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: 9px;
+    background: var(--gray-50);
+    color: var(--navy);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .field input::placeholder { color: #a89f8c; }
+
+  .field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(169, 130, 31, 0.25);
+  }
+
+  .field input.invalid {
+    border-color: var(--error);
+    box-shadow: 0 0 0 4px rgba(214, 69, 69, 0.1);
+  }
+
+  .field-error {
+    display: none;
+    color: var(--error);
+    font-size: 12.5px;
+    margin-top: 6px;
+  }
+
+  .field-error.show { display: block; }
+
+  .name-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 10px;
+    padding: 14px;
+    margin: 22px 0 8px;
+  }
+
+  .consent input[type="checkbox"] {
+    margin-top: 2px;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .consent label {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--gray-700);
+    cursor: pointer;
+  }
+
+  .consent label a { color: var(--accent); text-decoration: none; }
+  .consent label a:hover { text-decoration: underline; }
+
+  .consent-error {
+    display: none;
+    color: var(--error);
+    font-size: 12.5px;
+    margin: -2px 0 14px 2px;
+  }
+
+  .consent-error.show { display: block; }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #141311;
+    background: linear-gradient(135deg, var(--gold-bright) 0%, var(--accent) 100%);
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.05s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  button[type="submit"]:hover { background: var(--accent-hover); }
+  button[type="submit"]:active { transform: scale(0.99); }
+  button[type="submit"]:disabled { background: var(--gray-300); cursor: not-allowed; }
+
+  .spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(20,19,17,0.35);
+    border-top-color: #141311;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  button[type="submit"].loading .spinner { display: inline-block; }
+  button[type="submit"].loading .btn-text { display: none; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .trust-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+    color: var(--gray-500);
+    font-size: 11.5px;
+  }
+
+  .success-state, .error-banner {
+    display: none;
+    text-align: center;
+    padding: 40px 32px 44px;
+  }
+
+  .success-state.show, .error-banner.show { display: block; }
+
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.18);
+    color: var(--success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 28px;
+  }
+
+  .success-state h2 {
+    margin: 0 0 8px;
+    color: var(--navy);
+    font-size: 20px;
+  }
+
+  .success-state p {
+    margin: 0;
+    color: var(--gray-500);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .error-banner {
+    color: var(--error);
+    font-size: 13.5px;
+    background: #fdf1f1;
+    border-radius: 8px;
+    margin: 0 32px 16px;
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  .error-banner.show { display: block; }
+
+  form.hidden-form { display: none; }
+</style>
 </head>
 <body>
 
-<div class="app-shell">
-
-  <aside class="sidebar">
-    <div class="brand">
-      <span class="brand-mark">&#9670;</span>
-      <div class="brand-text">
-        <span class="brand-eyebrow">Client Ledger</span>
-        <span class="brand-name">CRM</span>
-      </div>
-    </div>
-    <div class="sidebar-label">Businesses</div>
-    <nav id="businessList" class="business-list"></nav>
-  </aside>
-
-  <div class="main">
-    <header class="topbar">
-      <div class="topbar-title">
-        <span class="page-eyebrow">Active business</span>
-        <h1 id="businessTitle">&mdash;</h1>
-      </div>
-      <div class="header-actions">
-        <span id="statusMsg" class="status-msg"></span>
-        <button id="refreshBtn" class="refresh-btn">Refresh</button>
-      </div>
-    </header>
-
-    <main class="content">
-      <section class="sheet-section">
-        <div class="section-head">
-          <h2>Leads</h2>
-          <span class="section-rule"></span>
-        </div>
-        <div class="table-wrap">
-          <table id="leadsTable"></table>
-        </div>
-      </section>
-
-      <section class="sheet-section">
-        <div class="section-head">
-          <h2>Bids</h2>
-          <span class="section-rule"></span>
-        </div>
-        <div class="table-wrap">
-          <table id="bidsTable"></table>
-        </div>
-      </section>
-    </main>
+<div class="card">
+  <div class="card-header">
+    <span class="badge">Free &amp; No Obligation</span>
+    <h1>Get Your Free Quote</h1>
+    <p>Tell us who you are and we'll text you back with pricing shortly.</p>
   </div>
 
+  <div class="error-banner" id="errorBanner">There was a problem submitting your info. Please try again.</div>
+
+  <form id="leadForm" novalidate>
+    <div class="name-row">
+      <div class="field">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" name="firstName" placeholder="Jane" autocomplete="given-name" />
+        <div class="field-error" id="firstNameError">Please enter your first name.</div>
+      </div>
+      <div class="field">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Doe" autocomplete="family-name" />
+        <div class="field-error" id="lastNameError">Please enter your last name.</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="phone">Mobile Phone Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" />
+      <div class="field-error" id="phoneError">Please enter a valid 10-digit phone number.</div>
+    </div>
+
+    <div class="consent">
+      <input type="checkbox" id="smsConsent" name="smsConsent" />
+      <label for="smsConsent">
+        By checking this box and clicking "Get My Free Quote," I agree to receive marketing and quote-related text
+        messages from <strong>Anointed Builders Group LLC (DBA Anointed Carpenters Group)</strong> at the phone number provided, including messages sent
+        by autodialer. Consent is not a condition of purchase. Message &amp; data rates may apply. Message
+        frequency varies. Reply <strong>STOP</strong> to unsubscribe at any time, or <strong>HELP</strong> for
+        help. View our <a href="https://anointedbuilders.com/privacy-%26-terms" target="_blank" rel="noopener">Privacy Policy</a> and
+        <a href="https://anointedbuilders.com/privacy-%26-terms" target="_blank" rel="noopener">Terms</a>.
+      </label>
+    </div>
+    <div class="consent-error" id="consentError">You must agree to receive text messages to request a quote.</div>
+
+    <button type="submit" id="submitBtn">
+      <span class="spinner"></span>
+      <span class="btn-text">Get My Free Quote</span>
+    </button>
+
+    <div class="trust-row">🔒 Your information is secure and never sold.</div>
+  </form>
+
+  <div class="success-state" id="successState">
+    <div class="success-icon">✓</div>
+    <h2>Thanks, <span id="successName">there</span>!</h2>
+    <p>We've received your request and will text you shortly with your free quote.</p>
+  </div>
 </div>
 
-<script src="config.js"></script>
-<script src="app.js"></script>
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────────────
+  // Paste the URL you get after deploying the Apps Script web app (see
+  // SETUP_INSTRUCTIONS.md). Leave as-is only for local testing.
+  const SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  // ────────────────────────────────────────────────────────────────────
+
+  const form = document.getElementById('leadForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successState = document.getElementById('successState');
+  const errorBanner = document.getElementById('errorBanner');
+  const successName = document.getElementById('successName');
+
+  const firstNameInput = document.getElementById('firstName');
+  const lastNameInput = document.getElementById('lastName');
+  const phoneInput = document.getElementById('phone');
+  const consentInput = document.getElementById('smsConsent');
+
+  function formatPhoneAsTyped(value) {
+    const digits = value.replace(/\D/g, '').slice(0, 10);
+    const len = digits.length;
+    if (len === 0) return '';
+    if (len < 4) return `(${digits}`;
+    if (len < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  }
+
+  phoneInput.addEventListener('input', (e) => {
+    e.target.value = formatPhoneAsTyped(e.target.value);
+  });
+
+  function setFieldError(input, errorEl, show) {
+    input.classList.toggle('invalid', show);
+    errorEl.classList.toggle('show', show);
+  }
+
+  function validate() {
+    let valid = true;
+
+    if (!firstNameInput.value.trim()) {
+      setFieldError(firstNameInput, document.getElementById('firstNameError'), true);
+      valid = false;
+    } else {
+      setFieldError(firstNameInput, document.getElementById('firstNameError'), false);
+    }
+
+    if (!lastNameInput.value.trim()) {
+      setFieldError(lastNameInput, document.getElementById('lastNameError'), true);
+      valid = false;
+    } else {
+      setFieldError(lastNameInput, document.getElementById('lastNameError'), false);
+    }
+
+    const digits = phoneInput.value.replace(/\D/g, '');
+    if (digits.length !== 10) {
+      setFieldError(phoneInput, document.getElementById('phoneError'), true);
+      valid = false;
+    } else {
+      setFieldError(phoneInput, document.getElementById('phoneError'), false);
+    }
+
+    const consentError = document.getElementById('consentError');
+    if (!consentInput.checked) {
+      consentError.classList.add('show');
+      valid = false;
+    } else {
+      consentError.classList.remove('show');
+    }
+
+    return valid;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBanner.classList.remove('show');
+
+    if (!validate()) return;
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+
+    const payload = {
+      formType: 'lead',
+      firstName: firstNameInput.value.trim(),
+      lastName: lastNameInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      smsConsent: consentInput.checked,
+      consentText: document.querySelector('.consent label').innerText.trim(),
+      submittedAt: new Date().toISOString(),
+      pageUrl: window.location.href
+    };
+
+    try {
+      if (SCRIPT_URL.startsWith('PASTE_')) {
+        // No backend configured yet — simulate success for local preview/testing.
+        await new Promise((r) => setTimeout(r, 600));
+      } else {
+        // Apps Script web apps don't return readable CORS responses when
+        // called cross-origin, so we fire with no-cors and treat network
+        // success as form success. Validation already happened above.
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      // Email notification via formsubmit.co — best effort, does NOT block
+      // or gate the success message. The Sheet write above is what actually
+      // captures the lead; this is a convenience notification on top of it.
+      // NOTE: the first-ever submission to a new destination address makes
+      // formsubmit.co send that address an "Activate Form" confirmation
+      // email instead of forwarding the lead — nothing after that point
+      // gets delivered until someone clicks it. Check spam if emails never
+      // arrive after the first test submission.
+      sendLeadNotificationEmail(payload).catch((err) => {
+        console.warn('Lead notification email failed (Sheet write already succeeded):', err);
+      });
+
+      successName.textContent = payload.firstName;
+      form.classList.add('hidden-form');
+      successState.classList.add('show');
+    } catch (err) {
+      errorBanner.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+    }
+  });
+
+  function sendLeadNotificationEmail(payload) {
+    const businessName = 'Anointed Builders Group LLC (DBA Anointed Carpenters Group)';
+    const fd = new FormData();
+    fd.append('First Name', payload.firstName);
+    fd.append('Last Name', payload.lastName);
+    fd.append('Phone', payload.phone);
+    fd.append('SMS Consent Given', payload.smsConsent ? 'Yes' : 'No');
+    fd.append('Business', businessName);
+    fd.append('Submitted At', payload.submittedAt);
+    fd.append('Source Page URL', payload.pageUrl);
+    fd.append('_subject', 'New Lead — ' + businessName);
+    fd.append('_captcha', 'false');
+    fd.append('_template', 'table');
+    return fetch('https://formsubmit.co/ajax/h2solutions85@gmail.com', {
+      method: 'POST',
+      body: fd
+    });
+  }
+</script>
+
 </body>
 </html>

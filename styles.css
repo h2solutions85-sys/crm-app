@@ -1,41 +1,43 @@
 /* ==========================================================
-   TOKENS — olive / walnut / ivory
+   TOKENS — polished black / gray / white (H Squared palette)
    ========================================================== */
 :root {
-  --ivory:        #F8F4EA;
-  --ivory-panel:  #FCFAF3;
-  --ivory-stripe: #F1EAD8;
+  --black:        #0B0B0D;
+  --charcoal:      #16171A;
+  --charcoal-700:  #1F2024;
+  --gray-700:      #2A2C31;
+  --gray-500:      #6B6F76;
+  --gray-300:      #9A9EA6;
+  --silver:        #C9CCD2;
+  --silver-light:  #E7E9EC;
+  --white:         #F5F6F7;
 
-  --walnut-900:   #241810;
-  --walnut-700:   #3E2C22;
-  --walnut-500:   #6B4A34;
+  --bg:            #EDEEEF;
+  --panel:         #FFFFFF;
+  --panel-stripe:  #F5F6F7;
 
-  --olive-700:    #4B5030;
-  --olive-600:    #6E7245;
-  --olive-300:    #A6AE7E;
+  --text-primary:  #17181B;
+  --text-muted:    #6B6F76;
+  --text-inverse:  #F5F6F7;
+  --text-muted-inverse: #9A9EA6;
 
-  --gold-500:     #B08D57;
-  --gold-300:     #D8C39A;
+  --border:        #E1E2E5;
+  --border-strong: #CACCD1;
 
-  --text-primary: #2B2116;
-  --text-inverse: #F3ECDD;
-  --text-muted:   #8A7965;
-  --text-muted-inverse: #B9AB94;
-
-  --border:       #E3D9C2;
-  --border-strong:#D2C4A3;
-
-  /* status system */
-  --status-not-contacted: #A79C8D;
-  --status-contacted:     #C99B4E;
-  --status-sent:          #6E7245;
-  --status-booked:        #3F4D2E;
+  /* status system — progressively more "polished" as pipeline advances */
+  --status-not-contacted-bg: #4A4D53;
+  --status-not-contacted-fg: #C9CCD2;
+  --status-contacted-bg:     #6B6F76;
+  --status-contacted-fg:     #F5F6F7;
+  --status-sent-bg:          #9A9EA6;
+  --status-sent-fg:          #17181B;
+  --status-booked-fg:        #17181B;
 
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
 
-  --font-display: "Fraunces", Georgia, serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -44,7 +46,7 @@
 body {
   margin: 0;
   font-family: var(--font-body);
-  background: var(--ivory);
+  background: var(--bg);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
 }
@@ -57,16 +59,16 @@ body {
   min-height: 100vh;
 }
 
-/* ---------- Sidebar : the client roster ---------- */
+/* ---------- Sidebar ---------- */
 .sidebar {
-  width: 268px;
+  width: 272px;
   flex-shrink: 0;
-  background: var(--walnut-900);
+  background: var(--black);
   color: var(--text-inverse);
-  padding: 28px 20px;
+  padding: 26px 20px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 26px;
 }
 
 .brand {
@@ -74,31 +76,38 @@ body {
   align-items: center;
   gap: 12px;
   padding-bottom: 22px;
-  border-bottom: 1px solid rgba(216, 195, 154, 0.25);
+  border-bottom: 1px solid rgba(201, 204, 210, 0.16);
 }
-.brand-mark {
-  color: var(--gold-500);
-  font-size: 18px;
-  line-height: 1;
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(201, 204, 210, 0.25);
 }
-.brand-text { display: flex; flex-direction: column; }
+.brand-text { display: flex; flex-direction: column; min-width: 0; }
 .brand-eyebrow {
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted-inverse);
+  white-space: nowrap;
 }
 .brand-name {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 600;
-  color: var(--text-inverse);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+  background: linear-gradient(120deg, var(--white) 0%, var(--silver) 45%, var(--white) 60%, var(--gray-300) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .sidebar-label {
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted-inverse);
   margin-bottom: -14px;
@@ -117,36 +126,36 @@ body {
   gap: 10px;
   padding: 11px 12px;
   border-radius: var(--radius-sm);
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--text-muted-inverse);
   border-left: 2px solid transparent;
   transition: background 0.15s ease, color 0.15s ease;
 }
 .biz-btn:hover {
-  background: rgba(216, 195, 154, 0.08);
+  background: rgba(201, 204, 210, 0.06);
   color: var(--text-inverse);
 }
 .biz-btn.active {
-  background: rgba(216, 195, 154, 0.12);
+  background: rgba(201, 204, 210, 0.10);
   color: var(--text-inverse);
-  border-left-color: var(--gold-500);
+  border-left-color: var(--silver);
   font-weight: 600;
 }
 .biz-dot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--olive-300);
+  background: var(--gray-500);
   flex-shrink: 0;
 }
-.biz-btn.active .biz-dot { background: var(--gold-500); }
+.biz-btn.active .biz-dot {
+  background: var(--white);
+  box-shadow: 0 0 6px rgba(245, 246, 247, 0.7);
+}
 
 /* ---------- Main ---------- */
-.main {
-  flex: 1;
-  min-width: 0;
-}
+.main { flex: 1; min-width: 0; }
 
 .topbar {
   display: flex;
@@ -156,37 +165,32 @@ body {
   padding: 32px 40px 24px;
   border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
+  background: var(--panel);
 }
 .page-eyebrow {
   display: block;
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 6px;
 }
 .topbar h1 {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 28px;
   font-weight: 600;
+  letter-spacing: 0.01em;
   margin: 0;
-  color: var(--walnut-700);
+  color: var(--text-primary);
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.status-msg {
-  font-size: 12.5px;
-  color: var(--text-muted);
-}
-.status-msg.error { color: #9A4B34; }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.status-msg { font-size: 12.5px; color: var(--text-muted); }
+.status-msg.error { color: #B23A3A; }
 
 .refresh-btn {
-  background: var(--walnut-700);
-  border: 1px solid var(--walnut-700);
+  background: var(--black);
+  border: 1px solid var(--black);
   color: var(--text-inverse);
   padding: 9px 18px;
   border-radius: var(--radius-sm);
@@ -194,13 +198,16 @@ body {
   font-weight: 600;
   font-size: 13px;
   font-family: var(--font-body);
-  letter-spacing: 0.01em;
-  transition: background 0.15s ease;
+  letter-spacing: 0.02em;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
 }
-.refresh-btn:hover { background: var(--olive-700); border-color: var(--olive-700); }
+.refresh-btn:hover {
+  background: var(--charcoal-700);
+  box-shadow: 0 0 0 1px var(--silver);
+}
 
 /* ---------- Content ---------- */
-.content { padding: 32px 40px 60px; }
+.content { padding: 32px 40px 60px; background: var(--bg); min-height: calc(100vh - 90px); }
 .sheet-section { margin-bottom: 42px; }
 
 .section-head {
@@ -211,26 +218,26 @@ body {
 }
 .section-head h2 {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: var(--walnut-500);
+  color: var(--text-primary);
   margin: 0;
   white-space: nowrap;
 }
 .section-rule {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right, var(--gold-300), var(--border));
+  background: linear-gradient(to right, var(--border-strong), transparent);
 }
 
 .table-wrap {
-  background: var(--ivory-panel);
+  background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow-x: auto;
-  box-shadow: 0 1px 2px rgba(43, 33, 22, 0.04);
+  box-shadow: 0 1px 3px rgba(11, 11, 13, 0.06);
 }
 
 table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
@@ -243,25 +250,25 @@ th, td {
 th {
   color: var(--text-muted);
   font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  background: var(--ivory-stripe);
+  background: var(--panel-stripe);
 }
 tbody tr:last-child td { border-bottom: none; }
-tbody tr:nth-child(even) { background: rgba(241, 234, 216, 0.35); }
-tbody tr:hover { background: rgba(176, 141, 87, 0.07); }
+tbody tr:nth-child(even) { background: rgba(245, 246, 247, 0.6); }
+tbody tr:hover { background: rgba(23, 24, 27, 0.03); }
 
-/* ---------- Status pill (signature element) ---------- */
+/* ---------- Status pill: polish increases with pipeline stage ---------- */
 .status-pill {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   padding: 5px 12px 5px 9px;
   border-radius: 999px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--text-inverse);
+  letter-spacing: 0.01em;
 }
 .status-dot {
   width: 6px;
@@ -279,10 +286,23 @@ tbody tr:hover { background: rgba(176, 141, 87, 0.07); }
 }
 .status-select option { color: var(--text-primary); }
 
-.status-not-contacted { background: var(--status-not-contacted); }
-.status-contacted     { background: var(--status-contacted); color: #2B2116; }
-.status-sent-to-client{ background: var(--status-sent); }
-.status-booked        { background: var(--status-booked); }
+.status-not-contacted {
+  background: var(--status-not-contacted-bg);
+  color: var(--status-not-contacted-fg);
+}
+.status-contacted {
+  background: var(--status-contacted-bg);
+  color: var(--status-contacted-fg);
+}
+.status-sent-to-client {
+  background: var(--status-sent-bg);
+  color: var(--status-sent-fg);
+}
+.status-booked {
+  background: linear-gradient(120deg, var(--silver-light) 0%, #FFFFFF 30%, var(--silver) 55%, #FFFFFF 80%, var(--silver-light) 100%);
+  color: var(--status-booked-fg);
+  box-shadow: 0 0 0 1px var(--border-strong);
+}
 
 .empty-note {
   padding: 22px 18px;
@@ -306,6 +326,6 @@ tbody tr:hover { background: rgba(176, 141, 87, 0.07); }
   .sidebar-label { display: none; }
   .business-list { flex-direction: row; }
   .biz-btn { border-left: none; border-bottom: 2px solid transparent; white-space: nowrap; }
-  .biz-btn.active { border-left-color: transparent; border-bottom-color: var(--gold-500); }
+  .biz-btn.active { border-left-color: transparent; border-bottom-color: var(--silver); }
   .topbar, .content { padding-left: 20px; padding-right: 20px; }
 }

@@ -31,8 +31,8 @@ function renderBusinessList() {
 
 async function loadData(business, isRefresh) {
   setStatus('Loading…');
-  document.getElementById('leadsTable').innerHTML = '';
-  document.getElementById('bidsTable').innerHTML = '';
+  document.getElementById('leadsGrid').innerHTML = '';
+  document.getElementById('bidsGrid').innerHTML = '';
   try {
     if (CONFIG.webAppUrl.indexOf('PASTE_') === 0) {
       throw new Error('Set webAppUrl and token in config.js first (see README).');
@@ -42,8 +42,8 @@ async function loadData(business, isRefresh) {
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     currentData = data;
-    renderTable('leadsTable', data.leads, 'leads');
-    renderTable('bidsTable', data.bids, 'bids');
+    renderEntries('leadsGrid', data.leads, 'leads');
+    renderEntries('bidsGrid', data.bids, 'bids');
     setStatus(isRefresh ? 'Refreshed ' + new Date().toLocaleTimeString() : '');
   } catch (err) {
     setStatus('Error: ' + err.message, true);
@@ -56,41 +56,62 @@ function setStatus(msg, isError) {
   el.className = isError ? 'status-msg error' : 'status-msg';
 }
 
-function renderTable(tableId, sheetData, sheetType) {
-  const table = document.getElementById(tableId);
-  table.innerHTML = '';
-  if (!sheetData || !sheetData.headers || sheetData.headers.length === 0) {
-    table.innerHTML = '<tr><td class="empty-note">No data found for this business yet.</td></tr>';
+/**
+ * Renders each row as a self-contained card: a title, a status pill,
+ * and every other field stacked as label/value pairs. Nothing runs
+ * off-screen regardless of how many columns a given sheet has.
+ */
+function renderEntries(containerId, sheetData, sheetType) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  if (!sheetData || !sheetData.headers || sheetData.headers.length === 0 || sheetData.rows.length === 0) {
+    container.innerHTML = '<div class="empty-note">No data found for this business yet.</div>';
     return;
   }
 
   const headers = sheetData.headers;
+  // Use the first non-Status column as the card's title (e.g. the name field).
+  const titleField = headers.find(h => h !== 'Status') || headers[0];
 
-  const thead = document.createElement('thead');
-  const trh = document.createElement('tr');
-  headers.forEach(h => {
-    const th = document.createElement('th');
-    th.textContent = h;
-    trh.appendChild(th);
-  });
-  thead.appendChild(trh);
-  table.appendChild(thead);
-
-  const tbody = document.createElement('tbody');
   sheetData.rows.forEach(row => {
-    const tr = document.createElement('tr');
+    const card = document.createElement('div');
+    card.className = 'entry-card';
+
+    const header = document.createElement('div');
+    header.className = 'entry-card-header';
+
+    const title = document.createElement('div');
+    title.className = 'entry-title';
+    title.textContent = row[titleField] || ('No ' + titleField);
+    header.appendChild(title);
+
+    header.appendChild(buildStatusPill(row, sheetType));
+    card.appendChild(header);
+
+    const fields = document.createElement('div');
+    fields.className = 'entry-fields';
     headers.forEach(h => {
-      const td = document.createElement('td');
-      if (h === 'Status') {
-        td.appendChild(buildStatusPill(row, sheetType));
-      } else {
-        td.textContent = row[h];
-      }
-      tr.appendChild(td);
+      if (h === titleField || h === 'Status') return;
+      const field = document.createElement('div');
+      field.className = 'entry-field';
+
+      const label = document.createElement('span');
+      label.className = 'field-label';
+      label.textContent = h;
+
+      const value = document.createElement('span');
+      value.className = 'field-value';
+      value.textContent = (row[h] !== undefined && row[h] !== '') ? row[h] : '—';
+
+      field.appendChild(label);
+      field.appendChild(value);
+      fields.appendChild(field);
     });
-    tbody.appendChild(tr);
+    card.appendChild(fields);
+
+    container.appendChild(card);
   });
-  table.appendChild(tbody);
 }
 
 function buildStatusPill(row, sheetType) {

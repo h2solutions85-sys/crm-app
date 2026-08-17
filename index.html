@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CRM Ledger — H Squared Solution</title>
-<link rel="icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +15,6 @@
 
   <aside class="sidebar">
     <div class="brand">
-      <img src="logo.png" alt="H Squared Solution" class="brand-logo">
       <div class="brand-text">
         <span class="brand-eyebrow">H Squared Solution</span>
         <span class="brand-name">CRM Ledger</span>
@@ -24,6 +22,10 @@
     </div>
     <div class="sidebar-label">Businesses</div>
     <nav id="businessList" class="business-list"></nav>
+
+    <div class="sidebar-footer">
+      &copy; 2026 H Squared Solution. All rights reserved.
+    </div>
   </aside>
 
   <div class="main">
@@ -44,9 +46,7 @@
           <h2>Leads</h2>
           <span class="section-rule"></span>
         </div>
-        <div class="table-wrap">
-          <table id="leadsTable"></table>
-        </div>
+        <div id="leadsGrid" class="entry-grid"></div>
       </section>
 
       <section class="sheet-section">
@@ -54,9 +54,7 @@
           <h2>Bids</h2>
           <span class="section-rule"></span>
         </div>
-        <div class="table-wrap">
-          <table id="bidsTable"></table>
-        </div>
+        <div id="bidsGrid" class="entry-grid"></div>
       </section>
     </main>
   </div>

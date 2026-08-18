@@ -12,7 +12,7 @@ const CONFIG = {
   businesses: [
     { id: 'gray-concrete',     name: 'Gray Concrete Co' },
     { id: 'anointed-builders', name: 'Anointed Builders' },
-    { id: 'accurate-builders-repair', name: 'Accurate Builders Repair' },
+    { id: 'accurate-builders-repair', name: 'Accurate Builders' },
     { id: 'business-4',        name: 'Business 4' },
     { id: 'business-5',        name: 'Business 5' },
     { id: 'business-6',        name: 'Business 6' },

@@ -16,7 +16,7 @@ const CONFIG = {
     { id: 'necity-roofing',        name: 'NECity Roofing' },
     { id: 'jags-mobile',        name: 'Jags Mobile' },
     { id: 'carolyn-suh-exp',        name: 'Carolyn eXp' },
-    { id: 'business-7',        name: 'Business 7' },
+    { id: 'precise-plumbing-service',        name: 'Precise Plumbing' },
     { id: 'business-8',        name: 'Business 8' },
     { id: 'business-9',        name: 'Business 9' },
     { id: 'business-10',       name: 'Business 10' }
